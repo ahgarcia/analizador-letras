@@ -1,11 +1,13 @@
 # 🎵 Analizador de Letras de Canciones
 
+## Vista previa
+
+![Analizador de Letras - Hero](docs/screenshot-hero.png)
+![Analizador de Letras - Resultados](docs/screenshot-resultados.png)
+
 Página web estática que analiza letras de canciones y muestra
 género musical, estado de ánimo, artistas similares e historia
 del género.
-
-## Vista previa
-(agrega aquí el screenshot del proyecto)
 
 ## Tecnologías
 - React 18
