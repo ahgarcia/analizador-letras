@@ -1,9 +1,31 @@
+import { useState, useEffect } from "react"
+
 const PLACEHOLDER = `The city lights are fading now
 I walk alone down empty streets
 The rain keeps falling on my soul
 And nothing ever feels complete`
 
+const MENSAJES_LOADING = [
+  "Detectando género musical…",
+  "Analizando estado de ánimo…",
+  "Buscando artistas similares…",
+  "Construyendo contexto histórico…",
+]
+
 export default function Analizador({ onAnalizar, analizando }) {
+  const [mensajeIdx, setMensajeIdx] = useState(0)
+
+  useEffect(() => {
+    if (!analizando) {
+      setMensajeIdx(0)
+      return
+    }
+    const interval = setInterval(() => {
+      setMensajeIdx((i) => (i + 1) % MENSAJES_LOADING.length)
+    }, 1800)
+    return () => clearInterval(interval)
+  }, [analizando])
+
   function handleSubmit(e) {
     e.preventDefault()
     const letra = e.target.letra.value.trim()
@@ -26,6 +48,9 @@ export default function Analizador({ onAnalizar, analizando }) {
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <textarea
               name="letra"
+              id="letra-input"
+              aria-label="Letra de la canción"
+              disabled={analizando}
               placeholder={PLACEHOLDER}
               className="
                 w-full h-40 sm:h-48 rounded-2xl bg-transparent border border-white/10
@@ -33,6 +58,7 @@ export default function Analizador({ onAnalizar, analizando }) {
                 placeholder:text-gray-600 placeholder:italic
                 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent
                 resize-none transition
+                disabled:opacity-40 disabled:cursor-not-allowed
               "
             />
 
@@ -52,12 +78,13 @@ export default function Analizador({ onAnalizar, analizando }) {
                 "
               >
                 {analizando ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                    </svg>
-                    Analizando…
+                  <span className="flex items-center justify-center gap-3">
+                    <span aria-hidden="true" className="flex gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:0ms]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:150ms]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:300ms]" />
+                    </span>
+                    <span>{MENSAJES_LOADING[mensajeIdx]}</span>
                   </span>
                 ) : (
                   "✨ Analizar"

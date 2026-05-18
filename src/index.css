@@ -16,3 +16,9 @@ body {
 h1, h2, h3, h4 {
   font-family: 'Syne', sans-serif;
 }
+
+@layer components {
+  .resultado-card {
+    @apply relative rounded-3xl p-4 sm:p-6 overflow-hidden text-white opacity-0 animate-fade-in-up;
+  }
+}

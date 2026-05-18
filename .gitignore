@@ -23,3 +23,19 @@ Thumbs.db
 *.log
 npm-debug.log*
 .claude/
+
+# Python
+python/.venv
+python/__pycache__
+**/__pycache__
+*.pyc
+
+# Env
+python/.env
+.env
+
+# Bridge server node_modules (si se instalan separado)
+server/node_modules/
+
+# Python cache adicional
+python/*.egg-info
