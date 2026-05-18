@@ -148,3 +148,53 @@ export function CardHistoria({ data, delay }) {
     </div>
   )
 }
+
+/* ── Metadata — Temas, Energía y Complejidad ────────────── */
+export function CardMetadata({ data, delay }) {
+  const energyColor = {
+    "Alto":  "bg-red-500/20 text-red-300 border-red-500/30",
+    "Medio": "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
+    "Bajo":  "bg-blue-500/20 text-blue-300 border-blue-500/30",
+  }[data.energy] || "bg-white/10 text-white/60 border-white/20"
+
+  const complexityColor = {
+    "Alta":  "bg-purple-500/20 text-purple-300 border-purple-500/30",
+    "Media": "bg-teal-500/20 text-teal-300 border-teal-500/30",
+    "Baja":  "bg-green-500/20 text-green-300 border-green-500/30",
+  }[data.lyricalComplexity] || "bg-white/10 text-white/60 border-white/20"
+
+  return (
+    <div
+      className="resultado-card sm:col-span-2 bg-white/5 border border-white/10"
+      style={{ animationDelay: delay, animationFillMode: "forwards" }}
+    >
+      <div className="flex items-center gap-3 mb-4">
+        <span className="font-dm text-xs font-semibold uppercase tracking-widest text-white/40">
+          Análisis detallado
+        </span>
+        <div className="h-px flex-1 bg-white/10" />
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3">
+        {data.themes.map((tema) => (
+          <span
+            key={tema}
+            className="flex items-center gap-1.5 font-dm text-xs font-medium px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/80"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0" />
+            {tema}
+          </span>
+        ))}
+        <div className="h-4 w-px bg-white/20 hidden sm:block" />
+        <span className={`flex items-center gap-1.5 font-dm text-xs font-semibold px-3 py-1.5 rounded-full border ${energyColor}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0" />
+          Energía · {data.energy}
+        </span>
+        <span className={`flex items-center gap-1.5 font-dm text-xs font-semibold px-3 py-1.5 rounded-full border ${complexityColor}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0" />
+          Complejidad · {data.lyricalComplexity}
+        </span>
+      </div>
+    </div>
+  )
+}

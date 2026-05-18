@@ -6,6 +6,7 @@ import {
   CardEstadoAnimo,
   CardArtistas,
   CardHistoria,
+  CardMetadata,
 } from "./components/ResultadoCard"
 import Footer from "./components/Footer"
 
@@ -44,6 +45,11 @@ function adaptarRespuesta(ia) {
       icono:  "📖",
       badge:  "Contexto",
     },
+    metadata: {
+      themes:            ia.themes            || [],
+      energy:            ia.energy            || "Medio",
+      lyricalComplexity: ia.lyricalComplexity || "Media",
+    },
   }
 }
 
@@ -62,7 +68,6 @@ export default function App() {
     setAnalizando(true)
 
     try {
-      // Llama al endpoint proxy de Vite → que ejecuta analyze.py
       const response = await fetch("/api/analyze", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
@@ -115,12 +120,15 @@ export default function App() {
               </h2>
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-600/50 to-transparent" />
             </div>
+
             <div key={key} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <CardGenero      data={resultados.genero}            delay="0ms"   />
               <CardEstadoAnimo data={resultados.estadoAnimo}       delay="120ms" />
               <CardArtistas    data={resultados.artistasSimilares} delay="240ms" />
               <CardHistoria    data={resultados.historia}          delay="360ms" />
+              <CardMetadata    data={resultados.metadata}          delay="480ms" />
             </div>
+
           </div>
         </section>
       )}
